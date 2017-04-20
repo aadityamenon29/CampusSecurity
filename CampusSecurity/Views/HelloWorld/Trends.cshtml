@@ -29,42 +29,57 @@
     <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
     <div class="w3-container" style="margin-left:250px; margin-top:43px">
-        <h2 class="w3-text-teal" style="margin-left:250px">Trends</h2>
+        <h2 class="w3-text-teal" style="margin-left:250px">Trends : Line Graphs</h2>
         <div>
             <label>University</label>
-            
+            <label style="margin-left:210px">Type</label>
+            <label style="margin-left:80px">Sub-Type</label>
         </div>
         <div style="align-items">
             <div class="editor-field">  @Html.ListBoxFor(m => m.Item1.University, Model.Item1.University, new { id = "uni", style = "width: 390px; margin-right:25px;float:left" }) </div>
-           
+            <div class="editor-field">  @Html.DropDownListFor(m => m.Item1.Type, Model.Item1.Type, new { id = "lstType", style = "width: 100px; margin-right:25px;float:left", @onchange = "CallChangefunc(this.value)" }) </div>
+            <select id="SubType"></select>
         </div>
-
-        <div class="w3-container" style="margin-left:250px;margin-top:25px">
-            <div>
-                <label>Type</label>
-                <label style="margin-left:110px">Sub-Type</label>
-            </div>
-            <div>
-                <div class="editor-field">  @Html.DropDownListFor(m => m.Item1.Type, Model.Item1.Type, new { id = "lstType", style = "width: 100px; margin-right:25px;float:left", @onchange = "CallChangefunc(this.value)" }) </div>
-                <select id="SubType"></select>
-            </div>
+        <div class="w3-container" style="margin-left:0px;margin-top:75px">
+            <button class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge" value="Search" onclick="senddata()">Generate</button>
         </div>
+    </div>
 
-       
-
-            <div class="w3-container" style="margin-left:500px;margin-top:25px">
-                <button class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge" value="Search" onclick="senddata()">Generate</button>
-            </div>
-        </div>
-
-        <div class="w3-container">
-            <h3>Bar graph generated</h3>
-            <p class="w3-large"></p>
-        </div>
+    <div class="w3-container">
+        <h3></h3>
+        <p class="w3-large"></p>
+    </div>
 
     <div id="GridDisplay" style="margin-top:50px;margin-left:250px">
 
     </div>
+
+    <div class="w3-container" style="margin-left:250px; margin-top:43px">
+        <h2 class="w3-text-teal" style="margin-left:250px">Trends : Pie Chart</h2>
+        <div>
+            <label>University</label>
+            <label style="margin-left:210px">Type</label>
+            
+        </div>
+        <div style="align-items">
+            <div class="editor-field">  @Html.ListBoxFor(m => m.Item1.University, Model.Item1.University, new { id = "uni2", style = "width: 390px; margin-right:25px;float:left" }) </div>
+            <div class="editor-field">  @Html.DropDownListFor(m => m.Item1.Type, Model.Item1.Type, new { id = "lstType2", style = "width: 100px; margin-right:25px;float:left" }) </div>
+            
+        </div>
+        <div class="w3-container" style="margin-left:0px;margin-top:75px">
+            <button class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge" value="Search" onclick="senddata2()">Generate</button>
+        </div>
+    </div>
+
+    <div class="w3-container">
+        <h3></h3>
+        <p class="w3-large"></p>
+    </div>
+
+    <div id="GridDisplay2" style="margin-top:50px;margin-left:250px">
+
+    </div>
+
         <script>
             // Get the Sidebar
             var mySidebar = document.getElementById("mySidebar");
@@ -271,5 +286,79 @@
 
                 }
     </script>
+
+
+
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        //google.charts.setOnLoadCallback(senddata);
+                function senddata2() {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("trendsPie", "HelloWorld")',
+                        data: { "Uni": $("#uni2").val(), "Type": $("#lstType2").val()},//'uni=' + $("uni").val + '&year=' + $("year").val + '&loc=' + $("loc").val,
+                        dataType: "html",
+                        success: function (cdata)
+                        {
+                           // alert("inside senddata2");
+                           // alert("data=" + cdata);
+                            var data = new google.visualization.DataTable();
+                            /*cdata=[{"Uni_name":"A T Still University of Health Sciences-NYU Lutheran Campus-Brooklyn-NY","Year11":0,"Year12":0,"Year13":0,"Year14":0,"Year15":0},
+                            {"Uni_name":"ABC Beauty Academy-Main Campus-Richardson-TX","Year11":0,"Year12":0,"Year13":0,"Year14":0,"Year15":0}]*/
+                            //alert(cdata);
+                           // data.addColumn('number', 'Year');
+                            //alert("dataxxyy=" + data.getColumnLabel(0));
+                            //alert("dataLength=" + cdata.length);
+                            var cdatax = JSON.parse(cdata);
+                            //alert(cdatax);
+                            data.addColumn('string', 'SubType');
+                            //alert("dataxxyy=" + data.getColumnLabel(0));
+                            data.addColumn('number', 'Total Incidents');
+                            // alert("datax=" + data.getColumnLabel(0));
+                            
+                            for (var i = 0; i < cdatax.length ; i++)
+                            {
+                                var tempList = [];
+                                tempList.push(cdatax[i].SubType_name);
+                                tempList.push(cdatax[i].Incidents);
+                                data.addRow(tempList);
+                                //alert(tempList);
+                            }
+                          //  alert("datax=" + data.getColumnLabel(0) + data.getColumnLabel(1) + data.getColumnLabel(2) + data.getColumnLabel(3));
+                            var options = {
+                                chart: {
+                                    title: 'Trends',
+                                    subtitle: 'Incidents over all years'
+                                },
+                                width: 900,
+                                height: 500
+                            };
+                            //alert(options);
+                            var chart = new google.visualization.PieChart(document.getElementById('GridDisplay2'));
+                            chart.draw(data, options);
+
+                            //alert("data=" + data);
+                            //$('#GridDisplay').html(data);
+                        }
+                    });
+
+                }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

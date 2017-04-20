@@ -9,6 +9,7 @@ namespace CampusSecurity.Models
     {
         
         public List<TrendsObject> answer { get; set; }
+        public List<TrendsPie> answer2 { get; set; }
         //public List<int> idList { get; set; }
         //pagination
         public int TotalCount { get; set; }

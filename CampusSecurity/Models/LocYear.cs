@@ -37,6 +37,25 @@ namespace CampusSecurity.Models
         
     }
 
+
+    public class TrendsPie
+    {
+        readonly String subType_name;
+        readonly int incidents;
+
+        public String SubType_name { get { return subType_name; } }
+
+        public int Incidents { get { return incidents; } }
+
+        public TrendsPie(String subType_name, int incidents)
+        {
+            this.subType_name = subType_name;
+            this.incidents= incidents;
+            
+        }
+
+
+    }
     public class TrendsObject
     {
 

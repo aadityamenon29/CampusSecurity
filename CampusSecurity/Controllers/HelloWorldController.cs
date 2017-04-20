@@ -340,6 +340,67 @@ namespace MvcMovie.Controllers
             //return Json(model);
         }
 
+        public JsonResult trendsPie(String Uni, String Type)
+        {
+            String[] temp = Uni.Split(':');
+            TrendsModel TPmodel = new TrendsModel();
+            TPmodel.answer2 = new List<TrendsPie>();
+            String sql = "select * from pie_store";
+            String sendType = Type;
+            if (Type == "Criminal Offense")
+            {
+                sendType = "CRIMINAL_OFFENSE";
+
+            }
+            else if (Type == "Violence Against Women")
+            {
+                sendType = "VAWA";
+
+            }
+            else if (Type == "Arrests")
+            {
+                sendType = "ARRESTS";
+
+            }
+
+            else
+            {
+
+                sendType = "DISCIPLINE";
+                
+            }
+
+
+            using (connection)
+            {
+
+                connection.Open();
+                OracleCommand cmd0 = new OracleCommand("GENERATEPIE", connection);
+                cmd0.CommandType = System.Data.CommandType.StoredProcedure;
+
+                cmd0.Parameters.Add("UniversityFilter", OracleDbType.Varchar2).Value = temp[0];
+                cmd0.Parameters.Add("BranchFilter", OracleDbType.Varchar2).Value = temp[1];
+                cmd0.Parameters.Add("CityFilter", OracleDbType.Varchar2).Value = temp[2];
+                cmd0.Parameters.Add("StateFilter", OracleDbType.Varchar2).Value = temp[3];
+                cmd0.Parameters.Add("TypeFilter", OracleDbType.Varchar2).Value = sendType;
+                cmd0.ExecuteNonQuery();
+                OracleCommand cmd = new OracleCommand(sql, connection);
+                cmd.CommandType = System.Data.CommandType.Text;
+                OracleDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    TrendsPie robj = new TrendsPie(reader.GetString(0), reader.GetInt32(1));
+                    TPmodel.answer2.Add(robj);
+                }
+
+                connection.Close();
+            }
+
+
+            return Json(TPmodel.answer2, JsonRequestBehavior.AllowGet);
+
+        }
+
         public JsonResult trends(String[] Uni, String Type, String SubType)
         {
             TrendsModel Tmodel = new TrendsModel();
@@ -455,6 +516,10 @@ namespace MvcMovie.Controllers
             //return View("loadTrends", new Tuple<TrendsModel, Discipline>(Tmodel, null));
         }
 
+        public void doNothing()
+        {
+            //check
+        }
         public ActionResult ranking(int Year,String Type, String SubType)
         {
 
