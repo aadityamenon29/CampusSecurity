@@ -46,11 +46,11 @@
                 <div class="w3-container" style="margin-left:250px;margin-top:25px">
                     <div>
                         <label>Type</label>
-                        <label style="margin-left:110px">Sub-Type</label>
+                       
                     </div>
                     <div>
-                        <div class="editor-field">  @Html.DropDownListFor(m => m.Item1.Type, Model.Item1.Type, new { id = "lstType", style = "width: 100px; margin-right:25px;float:left", @onchange = "CallChangefunc(this.value)" }) </div>
-                        <select id="SubType"></select>
+                        <div class="editor-field">  @Html.DropDownListFor(m => m.Item1.Type, Model.Item1.Type, new { id = "lstType", style = "width: 100px; margin-right:25px;float:left"}) </div>
+                        
                     </div>
                 </div>
 
@@ -135,7 +135,7 @@
                     $.ajax({
                         type: "POST",
                         url: '@Url.Action("loadGrid", "HelloWorld")',
-                        data: { "Uni": $("#uni").val(), "Year": $("#year").val(), "Location": $("#loc").val(), "Type": $("#lstType").val(), "SubType": $("#SubType").val()},//'uni=' + $("uni").val + '&year=' + $("year").val + '&loc=' + $("loc").val,
+                        data: { "Uni": $("#uni").val(), "Year": $("#year").val(), "Location": $("#loc").val(), "Type": $("#lstType").val()},//'uni=' + $("uni").val + '&year=' + $("year").val + '&loc=' + $("loc").val,
                         dataType: "html",
                         success: function (data)
                         {

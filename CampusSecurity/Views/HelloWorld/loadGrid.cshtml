@@ -3,7 +3,7 @@
 
 <table class="w3-table w3-striped w3-border">
     <tr>
-        @for (int itr = 0; itr < @ViewBag.NbColumns; itr++)
+        @for (int itr = 0; itr < @ViewBag.NbColumns-1; itr++)
         {
             <th>@ViewBag.Tlist[itr]</th>
         }

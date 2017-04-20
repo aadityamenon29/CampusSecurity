@@ -62,7 +62,7 @@
             
         </div>
         <div style="align-items">
-            <div class="editor-field">  @Html.ListBoxFor(m => m.Item1.University, Model.Item1.University, new { id = "uni2", style = "width: 390px; margin-right:25px;float:left" }) </div>
+            <div class="editor-field">  @Html.DropDownListFor(m => m.Item1.University, Model.Item1.University, new { id = "uni2", style = "width: 390px; margin-right:25px;float:left" }) </div>
             <div class="editor-field">  @Html.DropDownListFor(m => m.Item1.Type, Model.Item1.Type, new { id = "lstType2", style = "width: 100px; margin-right:25px;float:left" }) </div>
             
         </div>
@@ -177,10 +177,30 @@
                                // alert("afterrrr");
                             }
                           //  alert("datax=" + data.getColumnLabel(0) + data.getColumnLabel(1) + data.getColumnLabel(2) + data.getColumnLabel(3));
+                            //var options = {
+                            //    chart: {
+                            //        title: 'Trends',
+                            //        subtitle: 'Incidents over time'
+                            //    },
+                            //    width: 900,
+                            //    height: 500
+                            //};
+
+
                             var options = {
-                                chart: {
-                                    title: 'Trends',
-                                    subtitle: 'Incidents over time'
+                                title: 'Trends',
+                                vAxis: { title: "Incidents" },
+                                legend: { position: 'top', alignment: 'start' },
+                                hAxis: {
+                                    title: "Years",
+                                    gridlines: { count: 5, color: '#CCC' },
+
+                                    viewWindow: {
+                                        max: 2015,
+                                        min:2011
+                                    }
+
+                                    
                                 },
                                 width: 900,
                                 height: 500
@@ -192,7 +212,7 @@
                            
 
 
-                            for (var j = 1; j < 5; j++)
+                            for (var j = 1; j <= 5; j++)
                             {
                                 //alert("new outer increment");
                                 var tempList = [2010 + j];
@@ -276,7 +296,7 @@
                             //alert("dataxx=" + data.getSortedRows(0));
                             //alert("datax=" + data.getColumnLabel(0) + data.getColumnLabel(1) + data.getColumnLabel(2) + data.getColumnLabel(3));
                             var chart = new google.visualization.LineChart(document.getElementById('GridDisplay'));
-                            chart.draw(data, options);
+                            chart.draw(data,options);
 
 
                             //alert("data=" + data);
@@ -329,14 +349,23 @@
                                 //alert(tempList);
                             }
                           //  alert("datax=" + data.getColumnLabel(0) + data.getColumnLabel(1) + data.getColumnLabel(2) + data.getColumnLabel(3));
+                            
+
                             var options = {
-                                chart: {
-                                    title: 'Trends',
-                                    subtitle: 'Incidents over all years'
+                                title: 'Pie Chart',
+                                vAxis: { title: "Total Incidents" },
+                                legend: { position: 'top', alignment: 'start' },
+                                hAxis: {
+                                    title: "Years",
+                                    gridlines: { count: 5, color: '#CCC' }
+
                                 },
                                 width: 900,
                                 height: 500
                             };
+
+
+
                             //alert(options);
                             var chart = new google.visualization.PieChart(document.getElementById('GridDisplay2'));
                             chart.draw(data, options);

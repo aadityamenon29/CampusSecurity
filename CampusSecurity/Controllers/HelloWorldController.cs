@@ -226,20 +226,20 @@ namespace MvcMovie.Controllers
             return lstUni;
         }
 
-        public ActionResult loadGrid(String Uni, int Year, String Location, String Type, String SubType)
+        public ActionResult loadGrid(String Uni, int Year, String Location, String Type)
         {
             SearchViewModel model = new SearchViewModel();
             model.PageSize = 25;
             int columns = 0;
             String sql = "Select ";
-            if (SubType.Equals("All"))
-            {
+            
+            
                 sql = sql + "*";
-            }
-            else
-            {
-                sql = sql + SubType;
-            }
+            
+           
+            
+               
+            
             int flag = 0;
             Type = (Type == "Criminal Offense") ? "Criminal_Offense" : Type;
 
@@ -253,21 +253,21 @@ namespace MvcMovie.Controllers
             {
                 flag = 1;
                 var temp = new System.Collections.Generic.List<Discipline>();
-                tempList.Add("id"); tempList.Add("drug"); tempList.Add("weapon"); tempList.Add("liquor");
+                tempList.Add("drug"); tempList.Add("weapon"); tempList.Add("liquor");
                 model.generalList = temp.Cast<object>().ToList();
 
             }
             else if (Type == "Arrests")
             {
                 flag = 2;
-                tempList.Add("id"); tempList.Add("drug"); tempList.Add("weapon"); tempList.Add("liquor");
+                tempList.Add("drug"); tempList.Add("weapon"); tempList.Add("liquor");
                 var temp = new System.Collections.Generic.List<Arrests>();
                 model.generalList = temp.Cast<object>().ToList();
             }
             else if (Type == "Criminal_Offense")
             {
                 flag = 3;
-                tempList.Add("id"); tempList.Add("burgla"); tempList.Add("murd"); tempList.Add("vehic"); tempList.Add("neg_m"); tempList.Add("robbe"); tempList.Add("forcib"); tempList.Add("nonfor"); tempList.Add("agg_a"); tempList.Add("arson");
+                 tempList.Add("burgla"); tempList.Add("murd"); tempList.Add("vehic"); tempList.Add("neg_m"); tempList.Add("robbe"); tempList.Add("forcib"); tempList.Add("nonfor"); tempList.Add("agg_a"); tempList.Add("arson");
                 var temp = new System.Collections.Generic.List<Criminal_Offense>();
                 model.generalList = temp.Cast<object>().ToList();
 
@@ -276,7 +276,7 @@ namespace MvcMovie.Controllers
             else if (Type == ("VAWA"))
             {
                 flag = 4;
-                tempList.Add("id"); tempList.Add("stalk"); tempList.Add("dating"); tempList.Add("domest");
+                 tempList.Add("stalk"); tempList.Add("dating"); tempList.Add("domest");
                 var temp = new System.Collections.Generic.List<VAWA>();
                 model.generalList = temp.Cast<object>().ToList();
             }
